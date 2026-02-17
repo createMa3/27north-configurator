@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>27North — Build Your Expedition</title>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:wght@300;400;500;600&family=Barlow+Condensed:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        :root {
+            --black: #050505;
+            --dark: #0d0d0d;
+            --card: #111111;
+            --border: #1f1f1f;
+            --border-light: #2d2d2d;
+            --gold: #C9922A;
+            --gold-light: #E2AE50;
+            --text: #ffffff;
+            --muted: #777777;
+        }
+
+        body {
+            background: var(--black);
+            color: var(--text);
+            font-family: 'Barlow', sans-serif;
+            font-weight: 300;
+            overflow-x: hidden;
+        }
+
+        nav {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 22px 52px;
+            background: linear-gradient(to bottom, rgba(5,5,5,0.98) 0%, rgba(5,5,5,0) 100%);
+        }
+
+        .nav-logo {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 26px;
+            letter-spacing: 0.14em;
+            color: #fff;
+        }
+        .nav-logo span { color: var(--gold); }
+
+        .nav-links { display: flex; gap: 40px; list-style: none; }
+        .nav-links a {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: 12px; font-weight: 700;
+            letter-spacing: 0.22em; text-transform: uppercase;
+            color: var(--muted); text-decoration: none;
+            transition: color 0.2s;
+        }
+        .nav-links a:hover { color: #fff; }
+
+        .nav-cta {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: 12px; font-weight: 700;
+            letter-spacing: 0.2em; text-transform: uppercase;
+            background: var(--gold); color: #000;
+            border: none; padding: 12px 26px; cursor: pointer;
+        }
+
+        /* HERO */
+        .hero {
+            position: relative;
+            height: 100vh; min-height: 720px;
+            display: flex; align-items: flex-end;
+            overflow: hidden;
+        }
+
+        .hero-bg {
+            position: absolute; inset: 0;
+            background-image: url('https://static.wixstatic.com/media/47789f_b850cb851e284ded83ba7d12957023b0f000.jpg/v1/fill/w_1600,h_900,al_c,q_85/47789f_b850cb851e284ded83ba7d12957023b0f000.jpg');
+            background-size: cover; background-position: center 35%;
+            filter: brightness(0.32) contrast(1.15) saturate(0.75);
+        }
+
+        .hero-gradient {
+            position: absolute; inset: 0;
+            background: linear-gradient(to bottom, rgba(5,5,5,0.15) 0%, transparent 30%, rgba(5,5,5,0.55) 65%, rgba(5,5,5,1) 100%);
+        }
+
+        .hero-left-fade {
+            position: absolute; inset: 0;
+            background: linear-gradient(to right, rgba(5,5,5,0.65) 0%, transparent 55%);
+        }
+
+        .hero-content {
+            position: relative; z-index: 10;
+            padding: 0 52px 84px; max-width: 820px;
+        }
+
+        .eyebrow {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: 11px; font-weight: 700;
+            letter-spacing: 0.35em; text-transform: uppercase;
+            color: var(--gold); display: flex; align-items: center; gap: 14px;
+        }
+        .eyebrow::before {
+            content: ''; display: block;
+            width: 36px; height: 1px; background: var(--gold); flex-shrink: 0;
+        }
+
+        h1.hero-title {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: clamp(80px, 11vw, 130px);
+            line-height: 0.88; letter-spacing: 0.02em;
+            color: #fff; margin: 22px 0 28px;
+        }
+        h1.hero-title .gold { color: var(--gold); }
+
+        .hero-sub {
+            font-size: 15px; font-weight: 300;
+            color: rgba(255,255,255,0.5);
+            max-width: 440px; line-height: 1.85;
+            margin-bottom: 48px;
+        }
+
+        .cta-row { display: flex; gap: 14px; align-items: center; }
+
+        .btn-gold {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: 12px; font-weight: 700;
+            letter-spacing: 0.22em; text-transform: uppercase;
+            background: var(--gold); color: #000;
+            border: none; padding: 18px 44px; cursor: pointer;
+            transition: background 0.2s;
+        }
+        .btn-gold:hover { background: var(--gold-light); }
+
+        .btn-outline {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: 12px; font-weight: 700;
+            letter-spacing: 0.22em; text-transform: uppercase;
+            background: transparent; color: rgba(255,255,255,0.55);
+            border: 1px solid rgba(255,255,255,0.18);
+            padding: 18px 44px; cursor: pointer;
+            transition: border-color 0.2s, color 0.2s;
+        }
+        .btn-outline:hover { border-color: rgba(255,255,255,0.45); color: #fff; }
+
+        /* STATS */
+        .stats-bar {
+            display: grid; grid-template-columns: repeat(4, 1fr);
+            border-top: 1px solid var(--border-light);
+            border-bottom: 1px solid var(--border-light);
+        }
+        .stat {
+            padding: 38px 52px;
+            border-right: 1px solid var(--border-light);
+        }
+        .stat:last-child { border-right: none; }
+        .stat-number {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 54px; letter-spacing: 0.04em;
+            color: #fff; line-height: 1; margin-bottom: 6px;
+        }
+        .stat-number span { color: var(--gold); }
+        .stat-label {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: 11px; font-weight: 600;
+            letter-spacing: 0.22em; text-transform: uppercase;
+            color: var(--muted);
+        }
+
+        /* SECTION */
+        .section { padding: 96px 52px; }
+        .section-head {
+            display: flex; align-items: flex-end;
+            justify-content: space-between; margin-bottom: 48px;
+        }
+        .section-title {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: clamp(44px, 5vw, 68px);
+            letter-spacing: 0.04em; color: #fff; line-height: 1;
+        }
+        .see-all {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: 11px; font-weight: 700;
+            letter-spacing: 0.25em; text-transform: uppercase;
+            color: var(--muted); text-decoration: none;
+            border-bottom: 1px solid var(--border-light); padding-bottom: 3px;
+            transition: color 0.2s, border-color 0.2s;
+        }
+        .see-all:hover { color: var(--gold); border-color: var(--gold); }
+
+        .toggle {
+            display: inline-flex;
+            border: 1px solid var(--border-light); margin-bottom: 44px;
+        }
+        .toggle-btn {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: 12px; font-weight: 700;
+            letter-spacing: 0.2em; text-transform: uppercase;
+            padding: 13px 32px; background: transparent;
+            color: var(--muted); border: none; cursor: pointer;
+        }
+        .toggle-btn.active { background: var(--gold); color: #000; }
+
+        /* MODEL GRID */
+        .model-grid {
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            gap: 3px; margin-bottom: 3px;
+        }
+
+        .model-card {
+            position: relative; overflow: hidden;
+            cursor: pointer; background: var(--card);
+        }
+        .hero-card { grid-column: span 7; grid-row: span 2; min-height: 600px; }
+        .tall-card { grid-column: span 5; min-height: 296px; }
+
+        .model-card-img {
+            width: 100%; height: 100%; object-fit: cover; display: block;
+            transition: transform 0.7s ease, filter 0.35s ease;
+            filter: brightness(0.5) saturate(0.8);
+        }
+        .model-card:hover .model-card-img {
+            transform: scale(1.05);
+            filter: brightness(0.68) saturate(1.05);
+        }
+        .model-overlay {
+            position: absolute; inset: 0;
+            background: linear-gradient(to top, rgba(5,5,5,0.92) 0%, rgba(5,5,5,0.1) 50%, transparent 100%);
+        }
+        .model-info {
+            position: absolute; bottom: 0; left: 0; right: 0;
+            padding: 28px 30px;
+        }
+        .model-tag {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: 10px; font-weight: 700;
+            letter-spacing: 0.3em; text-transform: uppercase;
+            color: var(--gold); margin-bottom: 6px;
+        }
+        .model-name {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 42px; letter-spacing: 0.06em;
+            color: #fff; line-height: 1; margin-bottom: 5px;
+        }
+        .hero-card .model-name { font-size: 64px; }
+        .model-desc {
+            font-size: 13px; font-weight: 300;
+            color: rgba(255,255,255,0.5); margin-bottom: 14px;
+        }
+        .model-price-row {
+            display: flex; align-items: center; justify-content: space-between;
+        }
+        .model-price {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: 14px; font-weight: 600;
+            letter-spacing: 0.08em; color: var(--gold-light);
+        }
+        .config-chip {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: 11px; font-weight: 700;
+            letter-spacing: 0.18em; text-transform: uppercase;
+            background: var(--gold); color: #000;
+            padding: 8px 16px; opacity: 0;
+            transform: translateY(6px);
+            transition: opacity 0.3s, transform 0.3s;
+        }
+        .model-card:hover .config-chip { opacity: 1; transform: translateY(0); }
+
+        /* TRUCKS */
+        .truck-row {
+            display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 3px;
+        }
+        .truck-card {
+            position: relative; overflow: hidden;
+            cursor: pointer; background: var(--card); min-height: 360px;
+        }
+        .truck-card img {
+            width: 100%; height: 100%; object-fit: cover; display: block;
+            transition: transform 0.7s ease, filter 0.35s ease;
+            filter: brightness(0.45) saturate(0.75);
+        }
+        .truck-card:hover img {
+            transform: scale(1.05);
+            filter: brightness(0.65) saturate(1);
+        }
+        .truck-overlay {
+            position: absolute; inset: 0;
+            background: linear-gradient(to top, rgba(5,5,5,0.95) 0%, transparent 55%);
+        }
+        .truck-info {
+            position: absolute; bottom: 0; left: 0; right: 0;
+            padding: 26px 28px;
+        }
+
+        /* HOW IT WORKS */
+        .steps-section {
+            background: var(--dark);
+            border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+            padding: 80px 52px;
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 80px; align-items: center;
+        }
+        .steps-left p { font-size: 14px; color: var(--muted); line-height: 1.9; }
+        .steps-grid {
+            display: grid; grid-template-columns: repeat(6, 1fr); gap: 2px;
+        }
+        .step-card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            padding: 24px 18px; cursor: pointer;
+            transition: border-color 0.2s, background 0.2s;
+        }
+        .step-card:hover, .step-card.active {
+            border-color: var(--gold);
+            background: rgba(201,146,42,0.05);
+        }
+        .step-num {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 48px; line-height: 1;
+            color: var(--border-light); margin-bottom: 10px;
+            transition: color 0.2s;
+        }
+        .step-card:hover .step-num, .step-card.active .step-num { color: var(--gold); }
+        .step-name {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: 12px; font-weight: 700;
+            letter-spacing: 0.2em; text-transform: uppercase;
+            color: var(--muted); margin-bottom: 5px; transition: color 0.2s;
+        }
+        .step-card:hover .step-name, .step-card.active .step-name { color: var(--gold-light); }
+        .step-detail { font-size: 11px; color: rgba(255,255,255,0.28); line-height: 1.6; }
+
+        /* PHOTO STRIP */
+        .photo-strip { display: grid; grid-template-columns: repeat(4, 1fr); height: 260px; gap: 3px; }
+        .photo-tile { overflow: hidden; }
+        .photo-tile img {
+            width: 100%; height: 100%; object-fit: cover; display: block;
+            filter: brightness(0.45) saturate(0.7);
+            transition: transform 0.6s, filter 0.3s;
+        }
+        .photo-tile:hover img { transform: scale(1.06); filter: brightness(0.62) saturate(0.9); }
+
+        footer {
+            padding: 44px 52px; border-top: 1px solid var(--border);
+            display: flex; justify-content: space-between; align-items: center;
+        }
+        .footer-logo {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 20px; letter-spacing: 0.14em; color: var(--muted);
+        }
+        .footer-copy { font-size: 11px; color: var(--border-light); letter-spacing: 0.06em; }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="nav-logo">27<span>NORTH</span></div>
+        <ul class="nav-links">
+            <li><a href="#">Vans</a></li>
+            <li><a href="#">Trucks</a></li>
+            <li><a href="#">About</a></li>
+            <li><a href="#">Inventory</a></li>
+            <li><a href="#">Events</a></li>
+        </ul>
+        <button class="nav-cta">Configure Now</button>
+    </nav>
+
+    <section class="hero">
+        <div class="hero-bg"></div>
+        <div class="hero-gradient"></div>
+        <div class="hero-left-fade"></div>
+        <div class="hero-content">
+            <div class="eyebrow">Vehicle Configurator</div>
+            <h1 class="hero-title">Build Your<br><span class="gold">Expedition.</span></h1>
+            <p class="hero-sub">Every 27North vehicle is handcrafted to your exact specifications. Configure your build, explore pricing, and connect with our team when you're ready.</p>
+            <div class="cta-row">
+                <button class="btn-gold">Start Configuring</button>
+                <button class="btn-outline">View All Models</button>
+            </div>
+        </div>
+    </section>
+
+    <div class="stats-bar">
+        <div class="stat">
+            <div class="stat-number">7<span>+</span></div>
+            <div class="stat-label">Vehicle Platforms</div>
+        </div>
+        <div class="stat">
+            <div class="stat-number">100<span>%</span></div>
+            <div class="stat-label">Handcrafted Builds</div>
+        </div>
+        <div class="stat">
+            <div class="stat-number">6</div>
+            <div class="stat-label">Configuration Steps</div>
+        </div>
+        <div class="stat">
+            <div class="stat-number">∞</div>
+            <div class="stat-label">Possible Builds</div>
+        </div>
+    </div>
+
+    <section class="section">
+        <div class="section-head">
+            <div>
+                <div class="eyebrow" style="margin-bottom: 12px;">Choose Your Platform</div>
+                <div class="section-title">Select a Model</div>
+            </div>
+            <a href="#" class="see-all">View Full Specs →</a>
+        </div>
+
+        <div class="toggle">
+            <button class="toggle-btn active">Vans</button>
+            <button class="toggle-btn">Expedition Trucks</button>
+        </div>
+
+        <div class="model-grid">
+            <div class="model-card hero-card">
+                <img class="model-card-img" style="height:100%;" src="https://static.wixstatic.com/media/47789f_393cf88fcfdd46ebbb075b29a635ff9c~mv2.jpg/v1/fill/w_900,h_800,al_c,q_85/47789f_393cf88fcfdd46ebbb075b29a635ff9c~mv2.jpg" alt="VX">
+                <div class="model-overlay"></div>
+                <div class="model-info">
+                    <div class="model-tag">Flagship</div>
+                    <div class="model-name">VX</div>
+                    <div class="model-desc">Luxury Expedition Van — the pinnacle of handcrafted adventure</div>
+                    <div class="model-price-row">
+                        <div class="model-price">Starting at $185,000</div>
+                        <div class="config-chip">Configure →</div>
+                    </div>
+                </div>
+            </div>
+            <div class="model-card tall-card">
+                <img class="model-card-img" src="https://static.wixstatic.com/media/47789f_165d537ac1d34a188fb0c5fcbce4768a~mv2.png/v1/fill/w_700,h_400,al_c,q_85/47789f_165d537ac1d34a188fb0c5fcbce4768a~mv2.png" alt="VOG">
+                <div class="model-overlay"></div>
+                <div class="model-info">
+                    <div class="model-name">VOG</div>
+                    <div class="model-desc">Off-Grid Adventure Van</div>
+                    <div class="model-price-row">
+                        <div class="model-price">From $165,000</div>
+                        <div class="config-chip">Configure →</div>
+                    </div>
+                </div>
+            </div>
+            <div class="model-card tall-card">
+                <img class="model-card-img" src="https://static.wixstatic.com/media/47789f_a61b4b32c73c4b6cadb720d7abcb1c9a~mv2.png/v1/fill/w_700,h_400,al_c,q_85/47789f_a61b4b32c73c4b6cadb720d7abcb1c9a~mv2.png" alt="VT">
+                <div class="model-overlay"></div>
+                <div class="model-info">
+                    <div class="model-name">VT</div>
+                    <div class="model-desc">Touring Comfort Van</div>
+                    <div class="model-price-row">
+                        <div class="model-price">From $145,000</div>
+                        <div class="config-chip">Configure →</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="truck-row">
+            <div class="truck-card">
+                <img src="https://static.wixstatic.com/media/47789f_a04d184e07f7408aaa894dd08f6d5c2e~mv2.jpg/v1/fill/w_700,h_500,al_c,q_85/47789f_a04d184e07f7408aaa894dd08f6d5c2e~mv2.jpg" alt="Ascender">
+                <div class="truck-overlay"></div>
+                <div class="truck-info">
+                    <div class="model-tag">Ultimate Build</div>
+                    <div class="model-name" style="font-size:36px;">Ascender</div>
+                    <div class="model-price-row">
+                        <div class="model-price">From $320,000</div>
+                        <div class="config-chip">Configure →</div>
+                    </div>
+                </div>
+            </div>
+            <div class="truck-card">
+                <img src="https://static.wixstatic.com/media/47789f_8620143dc6ec41349682b22d4716a525~mv2.jpg/v1/fill/w_700,h_500,al_c,q_85/47789f_8620143dc6ec41349682b22d4716a525~mv2.jpg" alt="TR-27">
+                <div class="truck-overlay"></div>
+                <div class="truck-info">
+                    <div class="model-name" style="font-size:36px;">TR-27</div>
+                    <div class="model-price-row">
+                        <div class="model-price">From $275,000</div>
+                        <div class="config-chip">Configure →</div>
+                    </div>
+                </div>
+            </div>
+            <div class="truck-card">
+                <img src="https://static.wixstatic.com/media/47789f_b7d0f48ce8584eaa9c4d7a3b2e50858c~mv2.png/v1/fill/w_700,h_500,al_c,q_90/47789f_b7d0f48ce8584eaa9c4d7a3b2e50858c~mv2.png" alt="Basecamp">
+                <div class="truck-overlay"></div>
+                <div class="truck-info">
+                    <div class="model-name" style="font-size:36px;">Basecamp</div>
+                    <div class="model-price-row">
+                        <div class="model-price">From $225,000</div>
+                        <div class="config-chip">Configure →</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="steps-section">
+        <div class="steps-left">
+            <div class="eyebrow" style="margin-bottom: 14px;">The Process</div>
+            <div class="section-title" style="font-size:46px; margin-bottom:18px;">Your Build,<br>Your Way</div>
+            <p>Six steps to configure your ideal expedition vehicle and get a real price estimate — before you ever pick up the phone.</p>
+        </div>
+        <div class="steps-grid">
+            <div class="step-card active">
+                <div class="step-num">01</div>
+                <div class="step-name">Model</div>
+                <div class="step-detail">Choose your platform</div>
+            </div>
+            <div class="step-card">
+                <div class="step-num">02</div>
+                <div class="step-name">Exterior</div>
+                <div class="step-detail">Color & finish</div>
+            </div>
+            <div class="step-card">
+                <div class="step-num">03</div>
+                <div class="step-name">Interior</div>
+                <div class="step-detail">Trim & materials</div>
+            </div>
+            <div class="step-card">
+                <div class="step-num">04</div>
+                <div class="step-name">Packages</div>
+                <div class="step-detail">Adventure add-ons</div>
+            </div>
+            <div class="step-card">
+                <div class="step-num">05</div>
+                <div class="step-name">Wheels</div>
+                <div class="step-detail">Terrain options</div>
+            </div>
+            <div class="step-card">
+                <div class="step-num">06</div>
+                <div class="step-name">Summary</div>
+                <div class="step-detail">Full price breakdown</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="photo-strip">
+        <div class="photo-tile">
+            <img src="https://static.wixstatic.com/media/47789f_cc67b3b9202f4f5d86f215ea11f7e88f~mv2.png/v1/fill/w_600,h_400,al_c,q_85/47789f_cc67b3b9202f4f5d86f215ea11f7e88f~mv2.png" alt="">
+        </div>
+        <div class="photo-tile">
+            <img src="https://static.wixstatic.com/media/47789f_6a5423d718004293b8da74edfde1af61~mv2.png/v1/fill/w_600,h_400,al_c,q_85/47789f_6a5423d718004293b8da74edfde1af61~mv2.png" alt="">
+        </div>
+        <div class="photo-tile">
+            <img src="https://static.wixstatic.com/media/47789f_8b64b4665452468ea6ae4a63831a6be7~mv2.jpg/v1/fill/w_600,h_400,al_c,q_85/47789f_8b64b4665452468ea6ae4a63831a6be7~mv2.jpg" alt="">
+        </div>
+        <div class="photo-tile">
+            <img src="https://static.wixstatic.com/media/47789f_ea1b1c7b2d654f9eb7e398c892d90a67~mv2.png/v1/fill/w_600,h_400,al_c,q_85/47789f_ea1b1c7b2d654f9eb7e398c892d90a67~mv2.png" alt="">
+        </div>
+    </div>
+
+    <footer>
+        <div class="footer-logo">27NORTH</div>
+        <div class="footer-copy">© 2026 27North Inc. — Handcrafted in Springfield, Missouri</div>
+    </footer>
+
+</body>
+</html>
